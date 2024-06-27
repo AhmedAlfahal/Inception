@@ -1,0 +1,30 @@
+// Bismillah alrahman Alrahem
+
+// this is my notes for project inseption
+
+// makefile in the root dir
+// makefile should use docker yml to set up the entire application
+// all files required for configuration must be in "srcs" folder.
+
+// the whole project must be done in a virtual machine I have to use ***** docker compose ****
+
+// must check if there is a diffrence between "docker compose" and "docker-compose"
+
+// each container must have same name of it's service. and each service in a seprate container.
+
+// the container must be built with the previous stable version in my case inshallah I will do "Alpine:19".
+
+// must write a Dockerfile for each serivce and it must be called by docker-compose.yml by the makefile
+
+// it is Forbidden to pull ready-made images.
+
+// images that I need to setup.
+
+// // 1- container runs NGINX with TLSv1.2 or TLSv1.3 only.
+// // 2- container has a wordpress + php-fmp.
+// // 3- container has a MariaDB database.
+// // 4- Volume that contains database data.
+// // 5- Volume that contains wordpress data.
+// // 6- docker-network that connects all containers.
+
+// using network: host or --link or links is forbidden. running an infenite loop is forbidden.
