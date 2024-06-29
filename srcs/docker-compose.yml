@@ -1,0 +1,46 @@
+version: '3.9'
+services:
+  mariadb:
+    build: ./requirements/mariadb/
+    image: mariadb
+    container_name: mariadb
+    restart:
+      always
+    networks:
+      - aalfahal-inception
+    env_file:
+      - .env
+  wordpress:
+    container_name: wordpress
+    build: ./requirements/wordpress/
+    image: wordpress
+    depends_on:
+      - mariadb
+    volumes:
+      - ./wordpress:/app
+    networks:
+      - aalfahal-inception
+    restart: always
+    env_file:
+      - .env
+  nginx:
+    container_name: nginx
+    build: ./requirements/nginx/
+    image: nginx
+    depends_on:
+      - mariadb
+      - wordpress
+    volumes:
+      - ./nginx:/app
+    networks:
+      - aalfahal-inception
+    ports:
+      - "443:443"
+    restart: always
+    env_file:
+      - .env
+    init: true
+
+networks:
+  aalfahal-inception:
+    driver: bridge
