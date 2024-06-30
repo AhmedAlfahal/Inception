@@ -2,10 +2,15 @@ FROM alpine:3.19
 
 RUN apk update && apk add php82 fcgi php82-cgi wget mysql mysql-client
 
-EXPOSE 9000
 
-WORKDIR /etc/php7
+WORKDIR /usr/share/webapps/
 
 COPY . .
 
-CMD ["/bin/sh"]
+EXPOSE 9000
+
+RUN chmod +x ./tools/entrypoint.sh
+
+# CMD ["sleep", "infinity"]
+
+ENTRYPOINT ["./tools/entrypoint.sh"]

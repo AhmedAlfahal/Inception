@@ -4,8 +4,8 @@ RUN apk update && apk add nginx openrc
 
 EXPOSE 443
 
-WORKDIR /etc/nginx
+WORKDIR /app/nginx
 
 COPY . .
 
-CMD ["/bin/sh"]
+CMD ["sleep", "9999999"]
