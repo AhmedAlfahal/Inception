@@ -1,6 +1,10 @@
 all: build up
+	mkdir -p ./data/wordpress
+	mkdir -p ./data/mysql
 
 build:
+	mkdir -p ./data/wordpress
+	mkdir -p ./data/mysql
 	docker-compose -f ./srcs/docker-compose.yml build
 
 up:
@@ -19,7 +23,7 @@ logs:
 	docker-compose -f ./srcs/docker-compose.yml logs
 
 clean: down
-	rm -fr ./srcs/requirements/wordpress/wordpress
 	docker system prune --all --force;
+	rm -fr ./data
 
 re: clean all

@@ -10,10 +10,10 @@ RUN touch /run/openrc/softlevel
 
 WORKDIR /app/mariadb
 
-COPY . .
+COPY ./tools/entrypoint.sh /entrypoint.sh
 
-RUN chmod +x ./tools/entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-CMD ["sleep", "infinity"]
+# CMD ["sleep", "infinity"]
 
-# ENTRYPOINT ["./tools/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]

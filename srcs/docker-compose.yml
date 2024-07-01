@@ -7,7 +7,7 @@ services:
     restart:
       always
     volumes:
-      - ./requirements/mariadb:/app/mariadb
+      - ../data/mysql:/var/lib/mysql
     networks:
       - aalfahal-inception
     env_file:
@@ -19,7 +19,7 @@ services:
     depends_on:
       - mariadb
     volumes:
-      - ./requirements/wordpress:/usr/share/webapps/
+      - web_data:/usr/share/webapps/wordpress
     networks:
       - aalfahal-inception
     restart: on-failure
@@ -33,11 +33,11 @@ services:
       - mariadb
       - wordpress
     volumes:
-      - ./requirements/nginx:/app/nginx
+      - web_data:/var/www/html/wordpress
     networks:
       - aalfahal-inception
     ports:
-      - "443:443"
+      - "80:80"
     restart: on-failure
     env_file:
       - .env
@@ -45,3 +45,11 @@ services:
 
 networks:
   aalfahal-inception:
+
+volumes:
+  web_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /Users/ahmedalfahal/Desktop/Inception/data/wordpress
+      o: bind
