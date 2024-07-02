@@ -2,7 +2,7 @@ FROM alpine:3.19
 
 RUN apk update && apk add nginx openrc
 
-EXPOSE 80
+EXPOSE 443
 
 RUN openrc
 
@@ -21,6 +21,10 @@ RUN chown -R nginx:nginx /var/lib/nginx
 RUN chown -R nginx:nginx /var/www/html
 
 COPY ./conf/nginx.conf /etc/nginx/nginx.conf
+
+COPY ./conf/cert.crt /etc/nginx/cert.crt
+
+COPY ./conf/cert.key /etc/nginx/cert.key
 
 COPY ./tools/entrypoint.sh /entrypoint.sh
 

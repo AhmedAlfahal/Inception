@@ -40,7 +40,7 @@ services:
     networks:
       - aalfahal-inception
     ports:
-      - "80:80"
+      - "443:443"
     restart: on-failure
     env_file:
       - .env
