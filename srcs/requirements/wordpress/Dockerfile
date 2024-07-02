@@ -11,6 +11,8 @@ WORKDIR /usr/share/webapps/
 
 COPY ./tools/entrypoint.sh /entrypoint.sh
 
+COPY ./conf/www.conf /etc/php82/php-fpm.d/www.conf
+
 EXPOSE 9000
 
 RUN chmod +x /entrypoint.sh

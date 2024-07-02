@@ -20,6 +20,7 @@ services:
       - mariadb
     volumes:
       - web_data:/usr/share/webapps/wordpress
+      - php_conf:/etc/php82/
     networks:
       - aalfahal-inception
     restart: on-failure
@@ -34,6 +35,8 @@ services:
       - wordpress
     volumes:
       - web_data:/var/www/html/wordpress
+      - nginx_logs:/var/log/nginx
+      - nginx_conf:/etc/nginx
     networks:
       - aalfahal-inception
     ports:
@@ -52,4 +55,22 @@ volumes:
     driver_opts:
       type: none
       device: /Users/ahmedalfahal/Desktop/Inception/data/wordpress
+      o: bind
+  nginx_logs:
+    driver: local
+    driver_opts:
+      type: none
+      device: /Users/ahmedalfahal/Desktop/Inception/logs
+      o: bind
+  nginx_conf:
+    driver: local
+    driver_opts:
+      type: none
+      device: /Users/ahmedalfahal/Desktop/Inception/config/nginx
+      o: bind
+  php_conf:
+    driver: local
+    driver_opts:
+      type: none
+      device: /Users/ahmedalfahal/Desktop/Inception/config/php
       o: bind
