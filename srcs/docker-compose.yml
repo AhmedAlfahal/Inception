@@ -5,72 +5,79 @@ services:
     image: mariadb
     container_name: mariadb
     restart:
-      always
+      on-failure
     volumes:
-      - ../data/mysql:/var/lib/mysql
+      - ~/data/mysql:/var/lib/mysql
     networks:
       - aalfahal-inception
-    env_file:
-      - .env
+    secrets:
+      - MARIADB_ROOT_USER
+      - MARIADB_ROOT_PASSWORD
+      - DB_NAME
+      - DB_USER
+      - DB_PASS
   wordpress:
-    container_name: wordpress
     build: ./requirements/wordpress/
     image: wordpress
+    container_name: wordpress
     depends_on:
       - mariadb
     volumes:
-      - web_data:/usr/share/webapps/wordpress
-      - php_conf:/etc/php82/
+      - ~/data/wordpress:/usr/share/webapps/wordpress
     networks:
       - aalfahal-inception
-    restart: on-failure
-    env_file:
-      - .env
+    restart:
+      on-failure
+    secrets:
+      - DB_NAME
+      - DB_USER
+      - DB_PASS
+      - WP_AMDIN_USER
+      - WP_ADMIN_PASS
+      - WP_USER
+      - WP_PASS
   nginx:
-    container_name: nginx
     build: ./requirements/nginx/
     image: nginx
+    container_name: nginx
     depends_on:
       - mariadb
       - wordpress
     volumes:
-      - web_data:/var/www/html/wordpress
-      - nginx_logs:/var/log/nginx
-      - nginx_conf:/etc/nginx
+      - ~/data/wordpress:/var/www/html/wordpress
     networks:
       - aalfahal-inception
     ports:
       - "443:443"
-    restart: on-failure
-    env_file:
-      - .env
-    init: true
+    restart:
+      on-failure
+    secrets:
+      - nginx_cert
+      - nginx_cert_key
 
 networks:
   aalfahal-inception:
 
-volumes:
-  web_data:
-    driver: local
-    driver_opts:
-      type: none
-      device: /Users/ahmedalfahal/Desktop/Inception/data/wordpress
-      o: bind
-  nginx_logs:
-    driver: local
-    driver_opts:
-      type: none
-      device: /Users/ahmedalfahal/Desktop/Inception/logs
-      o: bind
-  nginx_conf:
-    driver: local
-    driver_opts:
-      type: none
-      device: /Users/ahmedalfahal/Desktop/Inception/config/nginx
-      o: bind
-  php_conf:
-    driver: local
-    driver_opts:
-      type: none
-      device: /Users/ahmedalfahal/Desktop/Inception/config/php
-      o: bind
+secrets:
+  MARIADB_ROOT_USER:
+   file: ../secrets/mariadb_root_user.txt
+  MARIADB_ROOT_PASSWORD:
+   file: ../secrets/mariadb_root_password.txt
+  DB_NAME:
+   file: ../secrets/db_name.txt
+  DB_USER:
+    file: ../secrets/db_username.txt
+  DB_PASS:
+    file: ../secrets/db_password.txt
+  WP_AMDIN_USER:
+    file: ../secrets/wp_admin_user.txt
+  WP_ADMIN_PASS:
+    file: ../secrets/wp_admin_pass.txt
+  WP_USER:
+    file: ../secrets/wp_username.txt
+  WP_PASS:
+    file: ../secrets/wp_password.txt
+  nginx_cert:
+    file: ../secrets/cert.crt
+  nginx_cert_key:
+    file: ../secrets/cert.key
