@@ -16,6 +16,7 @@ services:
       - DB_NAME
       - DB_USER
       - DB_PASS
+      - domain
   wordpress:
     build: ./requirements/wordpress/
     image: wordpress
@@ -54,6 +55,7 @@ services:
     secrets:
       - nginx_cert
       - nginx_cert_key
+      - domain
 
 networks:
   aalfahal-inception:
@@ -81,3 +83,5 @@ secrets:
     file: ../secrets/cert.crt
   nginx_cert_key:
     file: ../secrets/cert.key
+  domain:
+    file: ../secrets/domain.txt

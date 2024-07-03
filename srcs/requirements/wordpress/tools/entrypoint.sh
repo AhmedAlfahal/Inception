@@ -16,7 +16,7 @@ mv wp-cli.phar /usr/local/bin/wp
 
 wp config create --dbname=$(cat /run/secrets/DB_NAME) --dbuser=$(cat /run/secrets/DB_USER) --dbhost=mariadb --dbpass=$(cat /run/secrets/DB_PASS)
 
-wp core install --url=aalfahal.42.fr --title=aalfahal --admin_user=$(cat /run/secrets/WP_AMDIN_USER) --admin_password=$(cat /run/secrets/WP_ADMIN_PASS) --admin_email=admin@admin.ae
+wp core install --url=$(cat /run/secrets/domain) --title=aalfahal --admin_user=$(cat /run/secrets/WP_AMDIN_USER) --admin_password=$(cat /run/secrets/WP_ADMIN_PASS) --admin_email=admin@admin.ae
 wp user create $(cat /run/secrets/WP_USER) aalfahal@student.42abudhabi.com --role=subscriber --user_pass=$(cat /run/secrets/WP_PASS)
 
 
