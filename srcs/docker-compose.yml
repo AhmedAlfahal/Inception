@@ -24,7 +24,7 @@ services:
     depends_on:
       - mariadb
     volumes:
-      - ~/data/wordpress:/usr/share/webapps/wordpress
+      - wp_data:/var/www/html/wordpress
     networks:
       - aalfahal-inception
     restart:
@@ -37,6 +37,7 @@ services:
       - WP_ADMIN_PASS
       - WP_USER
       - WP_PASS
+      - domain
   nginx:
     build: ./requirements/nginx/
     image: nginx
@@ -45,7 +46,7 @@ services:
       - mariadb
       - wordpress
     volumes:
-      - ~/data/wordpress:/var/www/html/wordpress
+      - wp_data:/var/www/html/wordpress
     networks:
       - aalfahal-inception
     ports:
@@ -85,3 +86,11 @@ secrets:
     file: ../secrets/cert.key
   domain:
     file: ../secrets/domain.txt
+
+volumes:
+  wp_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: ~/data/wordpress
+      o: bind

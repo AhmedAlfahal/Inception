@@ -1,18 +1,19 @@
 #!/bin/sh
 
-cd /usr/share/webapps/
-wget https://wordpress.org/latest.tar.gz
-tar -xzvf latest.tar.gz
-rm latest.tar.gz
-mkdir -p /var/www/html/
-ln -s /usr/share/webapps/wordpress/ /var/www/html/
+# cd /usr/share/webapps/
+# wget https://wordpress.org/latest.tar.gz
+# tar -xzvf latest.tar.gz
+# rm latest.tar.gz
+# mkdir -p /var/www/html/
+# ln -s /usr/share/webapps/wordpress/ /var/www/html/
 
-cd wordpress/
+cd /wordpress/
 
-apk add curl
-curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-chmod +x wp-cli.phar
-mv wp-cli.phar /usr/local/bin/wp
+sleep 3
+
+# curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+# chmod +x wp-cli.phar
+# mv wp-cli.phar /usr/local/bin/wp
 
 wp config create --dbname=$(cat /run/secrets/DB_NAME) --dbuser=$(cat /run/secrets/DB_USER) --dbhost=mariadb --dbpass=$(cat /run/secrets/DB_PASS)
 
