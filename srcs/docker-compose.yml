@@ -6,6 +6,12 @@ services:
     container_name: mariadb
     restart:
       on-failure
+    healthcheck:
+      test: ["CMD", "mysqladmin", "--user='$(cat /run/secrets/MARIADB_ROOT_USER)'", "--password='$(cat /run/secrets/MARIADB_ROOT_PASSWORD)'", "ping"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
     volumes:
       - ~/data/mysql:/var/lib/mysql
     networks:
@@ -22,7 +28,8 @@ services:
     image: wordpress
     container_name: wordpress
     depends_on:
-      - mariadb
+      mariadb:
+        condition: service_healthy
     volumes:
       - wp_data:/var/www/html/wordpress
     networks:
